@@ -1,26 +1,26 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import TodolistsIndex from '../components/todolists/TodolistsIndex.vue'
-// import CompaniesCreate from '../components/todolists/CompaniesCreate'
-// import CompaniesEdit from '../components/todolists/CompaniesEdit'
+import TodolistsCreate from '../components/todolists/TodolistsCreate'
+import TodolistsEdit from '../components/todolists/TodolistsEdit'
 
 const routes = [
     {
         path: '/dashboard',
         name: 'todolists.index', 
         component: TodolistsIndex,
+    },
+    {
+        path: '/todolists/create',
+        name: 'todolists.create',
+        component: TodolistsCreate
+    },
+    {
+        path: '/todolists/:id/edit',
+        name: 'todolists.edit',
+        component: TodolistsEdit,
+        props: true
     }
-    // {
-    //     path: '/companies/create',
-    //     name: 'companies.create',
-    //     component: CompaniesCreate
-    // },
-    // {
-    //     path: '/companies/:id/edit',
-    //     name: 'companies.edit',
-    //     component: CompaniesEdit,
-    //     props: true
-    // }
 ]
 
 export default createRouter({

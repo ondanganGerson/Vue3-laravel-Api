@@ -19,4 +19,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('todolists', TodolistController::class);
+// Route::apiResource('todolists', TodolistController::class);   //or
+
+Route::get('/todolists', [TodoListController::class, 'index'])->name('todolists');
+Route::get('/todolists/{id}',[TodoListController::class, 'show'])->name('todolists');
+Route::post('/todolists/create',[TodoListController::class, 'store'])->name('todolists/create'); 
+Route::put('/todolists/{id}',[TodoListController::class, 'update'])->name('todolists');
+Route::delete('/todolists/{id}',[TodoListController::class, 'destroy'])->name('todolists');

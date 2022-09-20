@@ -55,7 +55,8 @@ class TodolistController extends Controller
      */
     public function update(UpdateTodolist $request, $id)
     {
-        $todo = Todolist::find($id)->update($request->validated());
+        $todo = Todolist::find($id);
+        $todo->update($request->validated());
 
         return new TodolistResource($todo);
     }
@@ -70,6 +71,6 @@ class TodolistController extends Controller
     {
         $todo = Todolist::find($id);
         $todo->delete();
-        return response()->noContent();
+        return response()->json(['messages' => 'Items Successfuly Deleted!', 200]);
     }
 }
