@@ -24,8 +24,8 @@ class StoreTodolist extends FormRequest
     public function rules()
     {
         return [
-            'title' => [],
-            'description' => [],
+            'title' => ['required'],
+            'description' => ['required'],
         ];
     }
 }

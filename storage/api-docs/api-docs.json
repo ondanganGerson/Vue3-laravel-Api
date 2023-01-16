@@ -1,0 +1,237 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Todo List Api",
+        "description": "Demo Todo List Api",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/todolists": {
+            "get": {
+                "tags": [
+                    "Todolist"
+                ],
+                "summary": "Get list of todolists",
+                "description": "Returns list of todolists",
+                "operationId": "todolists",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TodolistResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/todolists/create": {
+            "post": {
+                "tags": [
+                    "Todolist"
+                ],
+                "summary": "Store new todolist",
+                "description": "Returns todolist data",
+                "operationId": "todolists/create",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todolist"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/todolists/{id}}": {
+            "get": {
+                "tags": [
+                    "Todolist"
+                ],
+                "summary": "Get todolist information",
+                "description": "Returns todolist data",
+                "operationId": "getTodolistById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Todolist id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todolist"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/todolists/{id}": {
+            "put": {
+                "tags": [
+                    "Todolist"
+                ],
+                "summary": "Update existing todlist",
+                "description": "Returns updated todolist data",
+                "operationId": "updateTodolist",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Todolist id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todolist"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Todolist"
+                ],
+                "summary": "Delete existing todolist",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteTodolist",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Todolist id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TodolistResource": {
+                "title": "TodolistResource",
+                "description": "Todolist resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {}
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TodolistResource"
+                }
+            },
+            "Todolist": {
+                "title": "Todolist",
+                "description": "Todolist model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "title": "Title",
+                        "description": "Name of the new project",
+                        "type": "string",
+                        "example": "A nice project"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Todolist"
+                }
+            }
+        }
+    }
+}

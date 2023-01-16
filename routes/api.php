@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\SetupScriptController;
 use App\Http\Controllers\Api\TodolistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,5 @@ Route::get('/todolists/{id}',[TodoListController::class, 'show'])->name('todolis
 Route::post('/todolists/create',[TodoListController::class, 'store'])->name('todolists/create'); 
 Route::put('/todolists/{id}',[TodoListController::class, 'update'])->name('todolists');
 Route::delete('/todolists/{id}',[TodoListController::class, 'destroy'])->name('todolists');
+
+Route::get('scriptsetup',[SetupScriptController::class, 'index'])->name('scriptsetup');

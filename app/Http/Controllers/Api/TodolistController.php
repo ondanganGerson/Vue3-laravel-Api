@@ -7,25 +7,43 @@ use App\Http\Requests\Api\StoreTodolist;
 use App\Http\Requests\Api\UpdateTodolist;
 use App\Http\Resources\TodolistResource;
 use App\Models\Todolist;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class TodolistController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+   /**
+     * @OA\Get(
+     *      path="/api/todolists",
+     *      operationId="todolists",
+     *      tags={"Todolist"},
+     *      summary="Get list of todolists",
+     *      description="Returns list of todolists",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/TodolistResource")
+     *       ),
+     * )
      */
     public function index()
     {
-        return TodolistResource::collection(Todolist::all());
+        return TodolistResource::collection(Todolist::with('getUser')->get());
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *      path="/api/todolists/create",
+     *      operationId="todolists/create",
+     *      tags={"Todolist"},
+     *      summary="Store new todolist",
+     *      description="Returns todolist data",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Todolist")
+     *       ),
+     * )
      */
     public function store(StoreTodolist $request)
     {
@@ -35,23 +53,51 @@ class TodolistController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *      path="/api/todolists/{id}}",
+     *      operationId="getTodolistById",
+     *      tags={"Todolist"},
+     *      summary="Get todolist information",
+     *      description="Returns todolist data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Todolist id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     * )
      */
     public function show($id)
     {
-        $todo = Todolist::find($id);
+        $todo = Todolist::find($id)->with('getUser')->first();
         return new TodolistResource($todo);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Put(
+     *      path="/api/todolists/{id}",
+     *      operationId="updateTodolist",
+     *      tags={"Todolist"},
+     *      summary="Update existing todlist",
+     *      description="Returns updated todolist data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Todolist id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=202,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Todolist")
+     *       ),
+     * )
      */
     public function update(UpdateTodolist $request, $id)
     {
@@ -61,16 +107,38 @@ class TodolistController extends Controller
         return new TodolistResource($todo);
     }
 
+    
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *      path="/api/todolists/{id}",
+     *      operationId="deleteTodolist",
+     *      tags={"Todolist"},
+     *      summary="Delete existing todolist",
+     *      description="Deletes a record and returns no content",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Todolist id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     
+     * )
      */
     public function destroy($id)
     {
-        $todo = Todolist::find($id);
-        $todo->delete();
-        return response()->json(['messages' => 'Items Successfuly Deleted!', 200]);
+        try {
+
+            $todo = Todolist::find($id);
+            $todo->delete();
+
+            return response()->json(['messages' => 'Items Successfuly Deleted!', 200]);
+
+        }catch (ModelNotFoundException $exception){
+
+            return response()->json(["msg"=>$exception->getMessage()],404);
+        }
     }
 }
