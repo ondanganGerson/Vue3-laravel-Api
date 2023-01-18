@@ -20,12 +20,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::apiResource('todolists', TodolistController::class);   //or
 
-Route::get('/todolists', [TodoListController::class, 'index'])->name('todolists');
-Route::get('/todolists/{id}',[TodoListController::class, 'show'])->name('todolists');
-Route::post('/todolists/create',[TodoListController::class, 'store'])->name('todolists/create'); 
-Route::put('/todolists/{id}',[TodoListController::class, 'update'])->name('todolists');
-Route::delete('/todolists/{id}',[TodoListController::class, 'destroy'])->name('todolists');
+/***
+ * For REST Api and OpenApi/SWAGGER purposes With Santum authentication sample
+ * CREATE TOKEN USING SANCTUM TO ACCESS TODOS IN POSTMAN WITH AUTHENTICATION
+ * php artisan tinker
+ * $user = User::first();
+ * $user->createToken('user-access);
+ * see password-access-token in db after creating
+ * 
+ */
+
+// Route::get('/todolists', [TodoListController::class, 'index'])->name('todolists')->middleware('auth:sanctum');
+// Route::get('/todolists/{id}',[TodoListController::class, 'show'])->name('todolists');
+// Route::post('/todolists/create',[TodoListController::class, 'store'])->name('todolists/create'); 
+// Route::put('/todolists/{id}',[TodoListController::class, 'update'])->name('todolists');
+// Route::delete('/todolists/{id}',[TodoListController::class, 'destroy'])->name('todolists');
+Route::apiResource('todolists', TodolistController::class);   
+
+
+
+
 
 Route::get('scriptsetup',[SetupScriptController::class, 'index'])->name('scriptsetup');
+
