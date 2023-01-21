@@ -30,19 +30,34 @@ class TodolistController extends Controller
     {
         return TodolistResource::collection(Todolist::with('getUser')->get());
     }
-
-    /**
+/**
      * @OA\Post(
-     *      path="/api/todolists/create",
-     *      operationId="todolists/create",
+     *      path="/api/todolists",
+     *      operationId="storeProject",
      *      tags={"Todolist"},
-     *      summary="Store new todolist",
-     *      description="Returns todolist data",
+     *      summary="Store new project",
+     *      description="Returns project data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/StoreTodolist")
+     *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
      *          @OA\JsonContent(ref="#/components/schemas/Todolist")
      *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
      * )
      */
     public function store(StoreTodolist $request)
@@ -68,6 +83,11 @@ class TodolistController extends Controller
      *              type="integer"
      *          )
      *      ),
+     *        @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Todolist")
+     *       ),
      * )
      */
     public function show($id)
@@ -79,10 +99,10 @@ class TodolistController extends Controller
     /**
      * @OA\Put(
      *      path="/api/todolists/{id}",
-     *      operationId="updateTodolist",
+     *      operationId="updateProject",
      *      tags={"Todolist"},
-     *      summary="Update existing todlist",
-     *      description="Returns updated todolist data",
+     *      summary="Update existing project",
+     *      description="Returns updated project data",
      *      @OA\Parameter(
      *          name="id",
      *          description="Todolist id",
@@ -91,12 +111,32 @@ class TodolistController extends Controller
      *          @OA\Schema(
      *              type="integer"
      *          )
+     * 
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/UpdateTodolist")
      *      ),
      *      @OA\Response(
      *          response=202,
      *          description="Successful operation",
      *          @OA\JsonContent(ref="#/components/schemas/Todolist")
      *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
      * )
      */
     public function update(UpdateTodolist $request, $id)
@@ -124,6 +164,11 @@ class TodolistController extends Controller
      *              type="integer"
      *          )
      *      ),
+     *        @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Todolist")
+     *       ),
      
      * )
      */
@@ -134,7 +179,9 @@ class TodolistController extends Controller
             $todo = Todolist::find($id);
             $todo->delete();
 
-            return response()->json(['messages' => 'Items Successfuly Deleted!', 200]);
+            // return response()->json(['messages' => 'Items Successfuly Deleted!', 200]); // no need to return responsee as json, resource convert in json automatically
+
+            return new TodolistResource($todo);
 
         }catch (ModelNotFoundException $exception){
 

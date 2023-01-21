@@ -39,6 +39,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('todolists', TodolistController::class);   
 
 
+Route::post('/students', 'App\\Http\\Controllers\\StudentController');
+
 
 
 

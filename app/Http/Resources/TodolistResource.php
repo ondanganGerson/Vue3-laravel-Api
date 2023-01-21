@@ -16,7 +16,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class TodolistResource extends JsonResource
 {
     
-    
+    /**
+     * @OA\Property(
+     *     title="Data",
+     *     description="Data wrapper"
+     * )
+     *
+     * @var \App\Virtual\Models\Todolist[]
+     */
+    private $data;
+
     /**
      * Transform the resource into an array.
      *

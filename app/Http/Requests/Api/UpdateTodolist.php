@@ -4,6 +4,14 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *      title="Store Todolist request",
+ *      description="Store Todolist request body data",
+ *      type="Todolist",
+ *      required={"name"}
+ * )
+ */
 class UpdateTodolist extends FormRequest
 {
     /**
@@ -23,9 +31,10 @@ class UpdateTodolist extends FormRequest
      */
     public function rules()
     {
+        
         return [
-            'title' => [],
-            'description' => [],
+            'title' => ['required'],
+            'description' => ['required'],
         ];
     }
 }
