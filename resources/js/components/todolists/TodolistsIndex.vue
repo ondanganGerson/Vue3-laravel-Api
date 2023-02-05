@@ -59,7 +59,7 @@ export default {
 
       const deleteList = async (id) => {
          if(!window.confirm('Are you sure you want to delete')) {
-            return
+            return false
          }
 
          await destroyList(id);

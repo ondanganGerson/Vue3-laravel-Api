@@ -22,23 +22,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 /***
- * For REST Api and OpenApi/SWAGGER purposes With Santum authentication sample
+ * For REST Api and OpenApi/SWAGGER purposes With Santum authentication sample/ swagger not fully worked but worked in laravelapp
  * CREATE TOKEN USING SANCTUM TO ACCESS TODOS IN POSTMAN WITH AUTHENTICATION
- * php artisan tinker
+ * php artisan tinker  // or you can insert data using postman
  * $user = User::first();
  * $user->createToken('user-access);
  * see password-access-token in db after creating
  * 
  */
 
-// Route::get('/todolists', [TodoListController::class, 'index'])->name('todolists')->middleware('auth:sanctum');
-// Route::get('/todolists/{id}',[TodoListController::class, 'show'])->name('todolists');
-// Route::post('/todolists/create',[TodoListController::class, 'store'])->name('todolists/create'); 
-// Route::put('/todolists/{id}',[TodoListController::class, 'update'])->name('todolists');
-// Route::delete('/todolists/{id}',[TodoListController::class, 'destroy'])->name('todolists');
-Route::apiResource('todolists', TodolistController::class);   
+Route::get('/todolists', [TodoListController::class, 'index'])->name('todolists');
+Route::get('/todolists/{id}',[TodoListController::class, 'show'])->name('todolists');
+Route::post('/todolists/create',[TodoListController::class, 'store'])->name('todolists/create'); 
+Route::put('/todolists/{id}',[TodoListController::class, 'update'])->name('todolists');
+Route::delete('/todolists/{id}',[TodoListController::class, 'destroy'])->name('todolists');
+// Route::apiResource('todolists', TodolistController::class);   
 
 
+//For create architecture.
 Route::post('/students', 'App\\Http\\Controllers\\StudentController');
 
 

@@ -2,6 +2,8 @@ import { ref } from 'vue'
 import axios from "axios";
 import { useRouter } from 'vue-router';
 
+//composables are like services where actions or logic created
+
 export default function useTodolists() {
     const todolists = ref([])
     const list = ref([])
